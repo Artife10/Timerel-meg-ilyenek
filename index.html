@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>OrasOldalOrasoknak</title>
+</head>
+<body onload="Clock()">
+    <h1>ÓRÁS OLDAL ÓRÁSOKNAK</h1>
+    <!--Óra-->
+    <script> 
+        function Clock(){
+            var date = new Date();
+            var h = date.getHours(); // 0 - 23
+            var m = date.getMinutes(); // 0 - 59
+            var s = date.getSeconds(); // 0 - 59
+            var session = "AM";
+            
+            if(h == 0){
+                h = 12;
+            }
+            
+            if(h > 12){
+                h = h - 12;
+                session = "PM";
+            }
+            
+            h = (h < 10) ? "0" + h : h;
+            m = (m < 10) ? "0" + m : m;
+            s = (s < 10) ? "0" + s : s;
+            
+            var time = h + ":" + m + ":" + s + " " + session;
+            document.getElementById("clock").innerText = time;
+            document.getElementById("clock").textContent = time;
+            
+            setTimeout(Clock, 1000);
+
+            let today = new Date().toLocaleDateString()
+
+            document.getElementById("datum").innerText = today;
+            document.getElementById("datum").textContent = today;
+            
+
+
+        }
+        
+        Clock();
+    </script>
+
+
+    <div class="container">
+        <div class="ora">
+            <p id="clock">Ha ez látszik akkor valami gubanc van</p>
+        </div>
+        <div class="ora">
+            <p id="datum">Ha ez látszik akkor valami gubanc van</p>
+        </div>
+        <br>
+        <div class="ora">
+            <div id="stopper"></div>
+                
+                <button onclick="startstopper()">START</button>
+                <button onclick="stopstopper()">STOP</button>
+                <button onclick="resetstopper()">RESET</button>
+        </div>
+        <div class="visszaszamol">
+            
+        </div>
+    </div>
+
+    <!--STOPPER-->
+    <script>
+        let mili = 0;
+        let masod = 0;
+        let perc = 0;
+        show_value();
+
+        let megy = false;
+        
+        function startstopper(){
+            megy = true;
+        }
+
+        function stopstopper(){
+            megy = false;
+        }
+
+        function resetstopper(){
+            megy = false;
+            mili = 0;
+            masod = 0;
+            perc = 0;
+        }
+
+
+        setInterval(function(){
+            if(megy == true){
+                mili += 1;
+            }
+            if(mili >= 100){
+                masod += 1;
+                mili = 0;
+
+            }
+            if(masod >= 60){
+                perc += 1;
+                masod = 0;
+
+            }
+            show_value();
+        }, 10);
+
+        function show_value(){
+            document.getElementById("stopper").innerHTML = perc+" : "+masod+" : "+mili;
+        }
+    </script>
+
+    
+</body>
+</html>
